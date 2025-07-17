@@ -24,7 +24,7 @@ switch ($verb) {
     <repositoryName>Serveur OAI-PMH pour fichier CSV</repositoryName>
     <baseURL>" . htmlspecialchars("http://" . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']) . "</baseURL>
     <protocolVersion>2.0</protocolVersion>
-    <adminEmail>stephane.pouyllau@gmail.com</adminEmail>
+    <adminEmail>admin@monoai.org</adminEmail>
     <earliestDatestamp>1900-01-01T00:00:00Z</earliestDatestamp>
     <deletedRecord>no</deletedRecord>
     <granularity>YYYY-MM-DD</granularity>
