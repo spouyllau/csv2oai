@@ -2,6 +2,8 @@
 
 Ce projet implémente un serveur OAI-PMH (_Open Archives Initiative Protocol for Metadata Harvesting_) simple, en **PHP**, dont les données proviennent d’un fichier **CSV** contenant des métadonnées au format _Dublin Core Element Set_.
 
+> Note : code écrit avec l'aide du LLM [Mistral-7B-Instruct-v0.3](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3) sur Prompt personnel.
+
 ---
 
 ## Prérequis
