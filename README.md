@@ -153,7 +153,7 @@ A : Assurez-vous que le fichier `data.csv` est encodé en UTF-8 sans BOM, avec `
 
 Ce projet est open-source, voir le fichier LICENSE pour plus d'information.
 
-Citation : POUYLLAU, S. (CNRS), _CSV2OAI : Serveur OAI-PMH pour fichier CSV_, juillet 2025.
+Citation : POUYLLAU, S. (CNRS) with Mistral 7b, _CSV2OAI : Serveur OAI-PMH pour fichier CSV_, juillet 2025.
 
 ---
 
