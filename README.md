@@ -4,7 +4,7 @@ Ce projet implémente un serveur OAI-PMH (_Open Archives Initiative Protocol for
 
 ---
 
-## ✅ Prérequis
+## Prérequis
 
 - **PHP ≥ 7.2** (aucune extension spéciale requise)
 - Serveur HTTP (Apache, Nginx, ou intégré via `php -S`)
@@ -13,7 +13,7 @@ Ce projet implémente un serveur OAI-PMH (_Open Archives Initiative Protocol for
 
 ---
 
-## 📦 Fichiers du projet
+## Fichiers du projet
 
 | Fichier          | Description |
 |------------------|-------------|
@@ -24,7 +24,7 @@ Ce projet implémente un serveur OAI-PMH (_Open Archives Initiative Protocol for
 
 ---
 
-## 📁 Installation
+## Installation
 
 1. Clone ou copie les fichiers dans ton serveur web local :
 
@@ -47,7 +47,7 @@ Ce projet implémente un serveur OAI-PMH (_Open Archives Initiative Protocol for
 
 ---
 
-## 🧩 Fonctionnement
+## Fonctionnement
 
 Le script supporte les verbes suivants du protocole OAI-PMH :
 
@@ -61,7 +61,7 @@ Le verbe est passé par URL via `?verb=...`.
 
 ---
 
-## 📌 Format du CSV attendu
+## Format du CSV attendu
 
 Le fichier `data.csv` doit contenir une première ligne avec les champs suivants (en anglais, sans accents) :
 
@@ -71,7 +71,7 @@ identifier;title;creator;subject;description;publisher;date;type;format;language
 
 ---
 
-## 📚 Détail des fichiers et fonctions
+## Détail des fichiers et fonctions
 
 ### `oai-pmh.php`
 
@@ -125,7 +125,7 @@ Contient les fonctions de traitement du fichier CSV.
 
 ---
 
-## 🧪 Exemples d'URL de test
+## Exemples d'URL de test
 
 | Verbe            | Exemple d’URL |
 |------------------|-----------------------------|
@@ -137,7 +137,7 @@ Contient les fonctions de traitement du fichier CSV.
 
 ---
 
-## ❓ FAQ
+## FAQ
 
 **Q : Le script ne retourne qu’un seul enregistrement. Pourquoi ?**  
 A : Vérifiez que le paramètre `$batchSize` dans `oai-pmh.php` est bien défini à 10 (ou le nombre voulu).
@@ -147,7 +147,7 @@ A : Assurez-vous que le fichier `data.csv` est encodé en UTF-8 sans BOM, avec `
 
 ---
 
-## 📃 Licence et citation
+## Licence et citation
 
 Ce projet est open-source, voir le fichier LICENSE pour plus d'information.
 
@@ -155,7 +155,7 @@ Citation : POUYLLAU, S. (CNRS), _CSV2OAI : Serveur OAI-PMH pour fichier CSV_, ju
 
 ---
 
-## 📬 Contact
+## Contact
 
 Créé par Stéphane Pouyllau, ingénieur de recherche CNRS. 
 Date : juillet 2025.
