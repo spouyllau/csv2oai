@@ -1,3 +1,3 @@
-identifier;title;creator;subject;description;publisher;date;type;format;language;coverage;rights
-oai:example:1;Titre 1;Auteur 1;Sujet 1;Description 1;Éditeur 1;2023-01-01;Text;PDF;fr;France;Libre
-oai:example:2;Titre 2;Auteur 2;Sujet 2;Description 2;Éditeur 2;2023-02-15;Text;EPUB;en;Canada;CC-BY
+identifier;url;title;creator;subject;description;publisher;date;type;format;language;coverage;rights;relation
+oai:example:1;https://doi.org/10.0001.Dx;Titre 1;Auteur 1;Sujet 1;Description 1;Éditeur 1;2023-01-01;Text;PDF;fr;France;Libre;https://www.stephanepouyllau.org
+oai:example:2;https://doi.org/10.00001.Fx;Titre 2;Auteur 2;Sujet 2;Description 2;Éditeur 2;2023-02-15;Text;EPUB;en;Canada;CC-BY;https://www.stephanepouyllau.org

@@ -21,11 +21,11 @@ echo "  <request verb=\"$verb\">" . htmlspecialchars($_SERVER['REQUEST_URI']) . 
 switch ($verb) {
   case 'Identify':
     echo "  <Identify>
-    <repositoryName>PHP OAI Repository</repositoryName>
+    <repositoryName>Serveur OAI-PMH pour fichier CSV</repositoryName>
     <baseURL>" . htmlspecialchars("http://" . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']) . "</baseURL>
     <protocolVersion>2.0</protocolVersion>
-    <adminEmail>admin@example.org</adminEmail>
-    <earliestDatestamp>2023-01-01T00:00:00Z</earliestDatestamp>
+    <adminEmail>stephane.pouyllau@gmail.com</adminEmail>
+    <earliestDatestamp>1900-01-01T00:00:00Z</earliestDatestamp>
     <deletedRecord>no</deletedRecord>
     <granularity>YYYY-MM-DD</granularity>
   </Identify>\n";
@@ -71,6 +71,7 @@ switch ($verb) {
                      xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
                      xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/oai_dc/
                      http://www.openarchives.org/OAI/2.0/oai_dc.xsd\">
+            <dc:identifier>{$rec['url']}</dc:identifier>
             <dc:title>{$rec['title']}</dc:title>
             <dc:creator>{$rec['creator']}</dc:creator>
             <dc:subject>{$rec['subject']}</dc:subject>
@@ -82,6 +83,7 @@ switch ($verb) {
             <dc:language>{$rec['language']}</dc:language>
             <dc:coverage>{$rec['coverage']}</dc:coverage>
             <dc:rights>{$rec['rights']}</dc:rights>
+            <dc:relation>{$rec['relation']}</dc:relation>
           </oai_dc:dc>
         </metadata>
       </record>\n";
@@ -107,6 +109,7 @@ switch ($verb) {
                      xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
                      xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/oai_dc/
                      http://www.openarchives.org/OAI/2.0/oai_dc.xsd\">
+            <dc:identifier>{$rec['url']}</dc:identifier>
             <dc:title>{$rec['title']}</dc:title>
             <dc:creator>{$rec['creator']}</dc:creator>
             <dc:subject>{$rec['subject']}</dc:subject>
@@ -118,6 +121,7 @@ switch ($verb) {
             <dc:language>{$rec['language']}</dc:language>
             <dc:coverage>{$rec['coverage']}</dc:coverage>
             <dc:rights>{$rec['rights']}</dc:rights>
+            <dc:relation>{$rec['relation']}</dc:relation>
           </oai_dc:dc>
         </metadata>
       </record>
