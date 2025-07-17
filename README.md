@@ -8,7 +8,7 @@ Ce projet implémente un serveur OAI-PMH (_Open Archives Initiative Protocol for
 
 ## Prérequis
 
-- **PHP ≥ 7.2** (aucune extension spéciale requise)
+- **PHP ≥ 7.2** (aucune extension spéciale requise, le but est d'être le plus simple possible et de dépendre le moins possible des exisgences du serveur qui l'hébergera)
 - Serveur HTTP (Apache, Nginx, ou intégré via `php -S`)
 - Fichier CSV structuré selon le format _Dublin Core Element Set_
 - Accès au serveur via URL (localhost ou en ligne)
