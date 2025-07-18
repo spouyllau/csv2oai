@@ -1,138 +1,139 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-header('Content-Type: text/xml; charset=utf-8');
-require 'utils.php';
+// oai-pmh.php
+
+require_once 'utils.php';
+
+header('Content-Type: text/xml; charset=UTF-8');
+echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+
+$records = load_records('data.csv');
+$sets = extract_sets($records);
 
 $verb = $_GET['verb'] ?? '';
 $identifier = $_GET['identifier'] ?? '';
-$metadataPrefix = $_GET['metadataPrefix'] ?? 'oai_dc';
-$resumptionToken = isset($_GET['resumptionToken']) ? intval($_GET['resumptionToken']) : 0;
-
-$records = load_records();
+$metadataPrefix = $_GET['metadataPrefix'] ?? '';
+$resumptionToken = $_GET['resumptionToken'] ?? null;
 $batchSize = 10;
+$baseURL = get_base_url();
 
-echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+function format_record($record) {
+    $xml = "<record>\n";
+    $xml .= "  <header>\n";
+    $xml .= "    <identifier>" . htmlspecialchars($record['identifier']) . "</identifier>\n";
+    $xml .= "    <datestamp>" . htmlspecialchars($record['date']) . "</datestamp>\n";
+    if (!empty($record['set'])) {
+        $xml .= "    <setSpec>" . htmlspecialchars($record['set']) . "</setSpec>\n";
+    }
+    $xml .= "  </header>\n";
+    $xml .= "  <metadata>\n";
+    $xml .= "    <oai_dc:dc xmlns:oai_dc=\"http://www.openarchives.org/OAI/2.0/oai_dc/\" 
+             xmlns:dc=\"http://purl.org/dc/elements/1.1/\" 
+             xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" 
+             xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/oai_dc/ 
+             http://www.openarchives.org/OAI/2.0/oai_dc.xsd\">\n";
+    foreach ($record as $key => $value) {
+        if (in_array($key, ['title','creator','subject','description','publisher','date','type','format','language','coverage','rights']) && !empty($value)) {
+            $xml .= "      <dc:$key>" . htmlspecialchars($value) . "</dc:$key>\n";
+        }
+    }
+    $xml .= "    </oai_dc:dc>\n";
+    $xml .= "  </metadata>\n";
+    $xml .= "</record>\n";
+    return $xml;
+}
+
+function format_header($record) {
+    $xml = "<header>\n";
+    $xml .= "  <identifier>" . htmlspecialchars($record['identifier']) . "</identifier>\n";
+    $xml .= "  <datestamp>" . htmlspecialchars($record['date']) . "</datestamp>\n";
+    if (!empty($record['set'])) {
+        $xml .= "  <setSpec>" . htmlspecialchars($record['set']) . "</setSpec>\n";
+    }
+    $xml .= "</header>\n";
+    return $xml;
+}
+
+function list_sets($sets) {
+    $xml = "<ListSets>\n";
+    foreach ($sets as $set) {
+        $xml .= "  <set>\n";
+        $xml .= "    <setSpec>" . htmlspecialchars($set) . "</setSpec>\n";
+        $xml .= "    <setName>" . htmlspecialchars(ucfirst($set)) . "</setName>\n";
+        $xml .= "  </set>\n";
+    }
+    $xml .= "</ListSets>\n";
+    return $xml;
+}
+
+$date = gmdate('Y-m-d\TH:i:s\Z');
 echo "<OAI-PMH xmlns=\"http://www.openarchives.org/OAI/2.0/\">\n";
-echo "  <responseDate>" . gmdate('Y-m-d\TH:i:s\Z') . "</responseDate>\n";
-echo "  <request verb=\"$verb\">" . htmlspecialchars($_SERVER['REQUEST_URI']) . "</request>\n";
+echo "  <responseDate>$date</responseDate>\n";
+echo "  <request verb=\"$verb\">$baseURL</request>\n";
 
 switch ($verb) {
-  case 'Identify':
-    echo "  <Identify>
-    <repositoryName>Serveur OAI-PMH pour fichier CSV</repositoryName>
-    <baseURL>" . htmlspecialchars("http://" . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']) . "</baseURL>
-    <protocolVersion>2.0</protocolVersion>
-    <adminEmail>admin@monoai.org</adminEmail>
-    <earliestDatestamp>1900-01-01T00:00:00Z</earliestDatestamp>
-    <deletedRecord>no</deletedRecord>
-    <granularity>YYYY-MM-DD</granularity>
-  </Identify>\n";
-    break;
+    case 'Identify':
+        echo "  <Identify>\n";
+        echo "    <repositoryName>Mon Entrepot OAI</repositoryName>\n";
+        echo "    <baseURL>$baseURL</baseURL>\n";
+        echo "    <protocolVersion>2.0</protocolVersion>\n";
+        echo "    <adminEmail>admin@example.org</adminEmail>\n";
+        echo "    <earliestDatestamp>2000-01-01</earliestDatestamp>\n";
+        echo "    <deletedRecord>no</deletedRecord>\n";
+        echo "    <granularity>YYYY-MM-DD</granularity>\n";
+        echo "  </Identify>\n";
+        break;
 
-  case 'ListMetadataFormats':
-    echo "  <ListMetadataFormats>
-      <metadataFormat>
-        <metadataPrefix>oai_dc</metadataPrefix>
-        <schema>http://www.openarchives.org/OAI/2.0/oai_dc.xsd</schema>
-        <metadataNamespace>http://www.openarchives.org/OAI/2.0/oai_dc/</metadataNamespace>
-      </metadataFormat>
-    </ListMetadataFormats>\n";
-    break;
+    case 'ListMetadataFormats':
+        echo "  <ListMetadataFormats>\n";
+        echo "    <metadataFormat>\n";
+        echo "      <metadataPrefix>oai_dc</metadataPrefix>\n";
+        echo "      <schema>http://www.openarchives.org/OAI/2.0/oai_dc.xsd</schema>\n";
+        echo "      <metadataNamespace>http://www.openarchives.org/OAI/2.0/oai_dc/</metadataNamespace>\n";
+        echo "    </metadataFormat>\n";
+        echo "  </ListMetadataFormats>\n";
+        break;
 
-  case 'ListIdentifiers':
-    echo "  <ListIdentifiers>\n";
-    for ($i = $resumptionToken; $i < min($resumptionToken + $batchSize, count($records)); $i++) {
-      $rec = $records[$i];
-      echo "    <header>
-        <identifier>{$rec['identifier']}</identifier>
-        <datestamp>{$rec['date']}</datestamp>
-      </header>\n";
-    }
-    if ($i < count($records)) {
-      echo "    <resumptionToken>" . ($resumptionToken + $batchSize) . "</resumptionToken>\n";
-    }
-    echo "  </ListIdentifiers>\n";
-    break;
+    case 'ListIdentifiers':
+        echo "  <ListIdentifiers>\n";
+        $start = $resumptionToken ? intval($resumptionToken) : 0;
+        $chunk = array_slice($records, $start, $batchSize);
+        foreach ($chunk as $record) {
+            echo format_header($record);
+        }
+        if ($start + $batchSize < count($records)) {
+            echo "  <resumptionToken>" . ($start + $batchSize) . "</resumptionToken>\n";
+        }
+        echo "  </ListIdentifiers>\n";
+        break;
 
-  case 'ListRecords':
-    echo "  <ListRecords>\n";
-    for ($i = $resumptionToken; $i < min($resumptionToken + $batchSize, count($records)); $i++) {
-      $rec = $records[$i];
-      echo "    <record>
-        <header>
-          <identifier>{$rec['identifier']}</identifier>
-          <datestamp>{$rec['date']}</datestamp>
-        </header>
-        <metadata>
-          <oai_dc:dc xmlns:oai_dc=\"http://www.openarchives.org/OAI/2.0/oai_dc/\"
-                     xmlns:dc=\"http://purl.org/dc/elements/1.1/\"
-                     xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-                     xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/oai_dc/
-                     http://www.openarchives.org/OAI/2.0/oai_dc.xsd\">
-            <dc:identifier>{$rec['url']}</dc:identifier>
-            <dc:title>{$rec['title']}</dc:title>
-            <dc:creator>{$rec['creator']}</dc:creator>
-            <dc:subject>{$rec['subject']}</dc:subject>
-            <dc:description>{$rec['description']}</dc:description>
-            <dc:publisher>{$rec['publisher']}</dc:publisher>
-            <dc:date>{$rec['date']}</dc:date>
-            <dc:type>{$rec['type']}</dc:type>
-            <dc:format>{$rec['format']}</dc:format>
-            <dc:language>{$rec['language']}</dc:language>
-            <dc:coverage>{$rec['coverage']}</dc:coverage>
-            <dc:rights>{$rec['rights']}</dc:rights>
-            <dc:relation>{$rec['relation']}</dc:relation>
-          </oai_dc:dc>
-        </metadata>
-      </record>\n";
-    }
-    if ($i < count($records)) {
-      echo "    <resumptionToken>" . ($resumptionToken + $batchSize) . "</resumptionToken>\n";
-    }
-    echo "  </ListRecords>\n";
-    break;
+    case 'ListRecords':
+        echo "  <ListRecords>\n";
+        $start = $resumptionToken ? intval($resumptionToken) : 0;
+        $chunk = array_slice($records, $start, $batchSize);
+        foreach ($chunk as $record) {
+            echo format_record($record);
+        }
+        if ($start + $batchSize < count($records)) {
+            echo "  <resumptionToken>" . ($start + $batchSize) . "</resumptionToken>\n";
+        }
+        echo "  </ListRecords>\n";
+        break;
 
-  case 'GetRecord':
-    $rec = get_record_by_id($identifier, $records);
-    if ($rec) {
-      echo "  <GetRecord>
-      <record>
-        <header>
-          <identifier>{$rec['identifier']}</identifier>
-          <datestamp>{$rec['date']}</datestamp>
-        </header>
-        <metadata>
-          <oai_dc:dc xmlns:oai_dc=\"http://www.openarchives.org/OAI/2.0/oai_dc/\"
-                     xmlns:dc=\"http://purl.org/dc/elements/1.1/\"
-                     xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-                     xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/oai_dc/
-                     http://www.openarchives.org/OAI/2.0/oai_dc.xsd\">
-            <dc:identifier>{$rec['url']}</dc:identifier>
-            <dc:title>{$rec['title']}</dc:title>
-            <dc:creator>{$rec['creator']}</dc:creator>
-            <dc:subject>{$rec['subject']}</dc:subject>
-            <dc:description>{$rec['description']}</dc:description>
-            <dc:publisher>{$rec['publisher']}</dc:publisher>
-            <dc:date>{$rec['date']}</dc:date>
-            <dc:type>{$rec['type']}</dc:type>
-            <dc:format>{$rec['format']}</dc:format>
-            <dc:language>{$rec['language']}</dc:language>
-            <dc:coverage>{$rec['coverage']}</dc:coverage>
-            <dc:rights>{$rec['rights']}</dc:rights>
-            <dc:relation>{$rec['relation']}</dc:relation>
-          </oai_dc:dc>
-        </metadata>
-      </record>
-    </GetRecord>\n";
-    } else {
-      echo "<error code='idDoesNotExist'>No record found</error>\n";
-    }
-    break;
+    case 'GetRecord':
+        $record = get_record_by_id($identifier, $records);
+        if ($record) {
+            echo "  <GetRecord>\n";
+            echo format_record($record);
+            echo "  </GetRecord>\n";
+        }
+        break;
 
-  default:
-    echo "<error code='badVerb'>Unknown or missing verb</error>\n";
+    case 'ListSets':
+        echo list_sets($sets);
+        break;
+
+    default:
+        echo "  <error code=\"badVerb\">Verbe OAI inconnu ou non pris en charge</error>\n";
 }
 
 echo "</OAI-PMH>\n";

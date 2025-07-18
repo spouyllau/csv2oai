@@ -55,6 +55,7 @@ Le script supporte les verbes suivants du protocole OAI-PMH :
 
 - `Identify`
 - `ListMetadataFormats`
+- `ListSets`
 - `ListIdentifiers`
 - `ListRecords`
 - `GetRecord`
@@ -68,8 +69,11 @@ Le verbe est passé par URL via `?verb=...`.
 Le fichier `data.csv` doit contenir une première ligne avec les champs suivants (en anglais, sans accents) :
 
 ```
-identifier;title;creator;subject;description;publisher;date;type;format;language;coverage;rights
+set;identifier;title;creator;subject;description;publisher;date;type;format;language;coverage;rights;relation
 ```
+
+- set : est le marqueur pour le Set de l'OAI-PMH et est utilisé dans le verbe `ListSets`.
+- Les autres champs correspondent aux chamsp du _Dublin Core Elements Set_.
 
 ---
 
@@ -93,6 +97,8 @@ switch ($verb) {
     // Retourne les métadonnées du dépôt
   case 'ListIdentifiers':
     // Liste uniquement les identifiants et datestamps
+  case 'ListSets':
+    // Liste uniquement les sets
   case 'ListRecords':
     // Retourne les enregistrements Dublin Core complets
   case 'GetRecord':
@@ -133,6 +139,7 @@ Contient les fonctions de traitement du fichier CSV.
 |------------------|-----------------------------|
 | Identify         | `?verb=Identify` |
 | ListIdentifiers  | `?verb=ListIdentifiers&metadataPrefix=oai_dc` |
+| ListSets         | `?verb=ListSets` |
 | ListRecords      | `?verb=ListRecords&metadataPrefix=oai_dc` |
 | GetRecord        | `?verb=GetRecord&identifier=oai:example:1&metadataPrefix=oai_dc` |
 | Pagination       | `?verb=ListRecords&metadataPrefix=oai_dc&resumptionToken=10` |

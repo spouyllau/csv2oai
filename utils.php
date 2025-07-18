@@ -1,58 +1,56 @@
 <?php
+// utils.php
+
 function load_records($filename = 'data.csv') {
     $records = [];
+    if (!file_exists($filename)) return $records;
 
-    if (!file_exists($filename)) {
-        return $records;
-    }
+    $handle = fopen($filename, 'r');
+    if (!$handle) return $records;
 
-    $fp = fopen($filename, 'r');
-    if (!$fp) return $records;
-
-    // Supprime BOM UTF-8 éventuel
-    $firstLine = fgets($fp);
-    $firstLine = preg_replace('/^\xEF\xBB\xBF/', '', $firstLine);
-    $headers = str_getcsv(trim($firstLine), ';');
-
-    // Nettoyage des entêtes
-    $headers = array_map(function ($h) {
-        return strtolower(trim($h));
-    }, $headers);
-
-    while (($row = fgetcsv($fp, 0, ';')) !== false) {
-        // Ignorer lignes vides ou incomplètes
-        if (count($row) < 2) continue;
-
-        $record = [];
-        foreach ($headers as $i => $key) {
-            $record[$key] = isset($row[$i]) ? trim($row[$i]) : '';
+    $headers = fgetcsv($handle, 0, ';');
+    while (($row = fgetcsv($handle, 0, ';')) !== false) {
+        $record = array_combine($headers, $row);
+        if (!isset($record['identifier']) || empty($record['identifier'])) {
+            static $id = 0;
+            $record['identifier'] = 'oai:example:' . (++$id);
         }
-
-        // Valeurs par défaut
-        $record['identifier'] = $record['identifier'] ?: uniqid('oai:generated:', true);
-        $record['date'] = validate_date($record['date']) ?: '2023-01-01';
-
+        if (!isset($record['date']) || empty($record['date'])) {
+            $record['date'] = date('Y-m-d');
+        }
+        if (!isset($record['set'])) {
+            $record['set'] = '';
+        }
         $records[] = $record;
     }
 
-    fclose($fp);
+    fclose($handle);
     return $records;
 }
 
 function get_record_by_id($identifier, $records) {
-    foreach ($records as $rec) {
-        if ($rec['identifier'] === $identifier) {
-            return $rec;
-        }
+    foreach ($records as $record) {
+        if ($record['identifier'] === $identifier) return $record;
     }
     return null;
 }
 
 function validate_date($date) {
-    // Accepte YYYY-MM-DD, YYYY-MM, YYYY
-    if (preg_match('/^\d{4}(-\d{2}){0,2}$/', $date)) {
-        return $date;
+    return preg_match('/^\\d{4}(-\\d{2})?(-\\d{2})?$/', $date);
+}
+
+function get_base_url() {
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    return $protocol . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+}
+
+function extract_sets($records) {
+    $sets = [];
+    foreach ($records as $r) {
+        if (!empty($r['set']) && !in_array($r['set'], $sets)) {
+            $sets[] = $r['set'];
+        }
     }
-    return null;
+    return $sets;
 }
 ?>
