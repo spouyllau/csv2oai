@@ -92,19 +92,6 @@ switch ($verb) {
         echo "    </metadataFormat>\n";
         echo "  </ListMetadataFormats>\n";
         break;
-
-    //case 'ListIdentifiers':
-    //    echo "  <ListIdentifiers>\n";
-    //    $start = $resumptionToken ? intval($resumptionToken) : 0;
-    //    $chunk = array_slice($records, $start, $batchSize);
-    //    foreach ($chunk as $record) {
-    //        echo format_header($record);
-    //    }
-    //    if ($start + $batchSize < count($records)) {
-    //        echo "  <resumptionToken>" . ($start + $batchSize) . "</resumptionToken>\n";
-    //    }
-    //    echo "  </ListIdentifiers>\n";
-    //    break;
     
     case 'ListIdentifiers':
         echo "  <ListIdentifiers>\n";
@@ -131,21 +118,6 @@ switch ($verb) {
         }
         echo "  </ListIdentifiers>\n";
         break;
-
-    
-
-    //case 'ListRecords':
-    //    echo "  <ListRecords>\n";
-    //    $start = $resumptionToken ? intval($resumptionToken) : 0;
-    //    $chunk = array_slice($records, $start, $batchSize);
-    //    foreach ($chunk as $record) {
-    //        echo format_record($record);
-    //    }
-    //    if ($start + $batchSize < count($records)) {
-    //        echo "  <resumptionToken>" . ($start + $batchSize) . "</resumptionToken>\n";
-    //    }
-    //    echo "  </ListRecords>\n";
-    //    break;
     
     case 'ListRecords':
         echo "  <ListRecords>\n";
