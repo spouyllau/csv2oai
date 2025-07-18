@@ -73,7 +73,7 @@ set;identifier;title;creator;subject;description;publisher;date;type;format;lang
 ```
 
 - set : est le marqueur pour le Set de l'OAI-PMH et est utilisé dans le verbe `ListSets`.
-- Les autres champs correspondent aux chamsp du _Dublin Core Elements Set_.
+- Les autres champs correspondent aux chamsp du _Dublin Core Element Set_.
 
 ---
 
