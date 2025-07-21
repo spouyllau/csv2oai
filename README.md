@@ -150,7 +150,8 @@ Contient les fonctions de traitement du fichier CSV.
 
 - Les données sont intégralement extraites depuis `data.csv`.
 - La pagination se fait via `resumptionToken`.
-- Le script n'implémente pas les fonctionalités de `deleted`, `from`, `until` de l'OAI dans la mesure où il doit rester très léger pour les utilisateurs non spécialiste de l'OAI. Pour celles et ceux qui souhaitent une intégration complète du protocole OAI-PMH, d'autres outils sont disponibles avec une gestion plus fine (Dataverse, Omeka Classic ou S, etc.)
+- Le script n'implémente pas les fonctionalités de `deleted`, `from`, `until` de l'OAI dans la mesure où il doit rester très léger pour les utilisateurs non spécialiste de l'OAI. Pour celles et ceux qui souhaitent une intégration complète du protocole OAI-PMH, d'autres outils sont disponibles avec une gestion plus fine (Dataverse, Omeka Classic ou S, etc.).
+- Ce serveur ne convient pas pour des fichiers csv de taille importante, d'autres outils sont disponibles pour des très grand volume de données (Dataverse, etc.).
 
 ---
 
