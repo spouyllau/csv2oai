@@ -32,7 +32,7 @@ function format_record($record) {
              xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/oai_dc/ 
              http://www.openarchives.org/OAI/2.0/oai_dc.xsd\">\n";
     foreach ($record as $key => $value) {
-        if (in_array($key, ['identifier','title','creator','subject','description','publisher','date','type','format','language','coverage','rights']) && !empty($value)) {
+        if (in_array($key, ['identifier','title','creator','subject','description','publisher','date','type','format','language','coverage','rights','relation']) && !empty($value)) {
             $xml .= "      <dc:$key>" . htmlspecialchars($value) . "</dc:$key>\n";
         }
     }
