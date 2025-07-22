@@ -1,47 +1,48 @@
-# CSV2OAI : Serveur OAI-PMH pour fichier CSV
 
-Ce projet implémente un serveur OAI-PMH (_Open Archives Initiative Protocol for Metadata Harvesting_) simple, en **PHP**, dont les données proviennent d’un fichier **CSV** contenant des métadonnées au format _Dublin Core Element Set_.
+# CSV2OAI: OAI-PMH Server for CSV Files
 
-> Note : code écrit avec l'aide du LLM [Mistral-7B-Instruct-v0.3](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3) sur Prompt personnel.
+This project implements a simple OAI-PMH (_Open Archives Initiative Protocol for Metadata Harvesting_) server in **PHP**, where the data comes from a **CSV** file containing metadata in the _Dublin Core Element Set_ format.
 
----
-
-## Prérequis
-
-- **PHP ≥ 7.2** (aucune extension spéciale requise, le but est d'être le plus simple possible et de dépendre le moins possible des exisgences du serveur qui l'hébergera)
-- Serveur HTTP (Apache, Nginx, ou intégré via `php -S`)
-- Fichier CSV structuré selon le format _Dublin Core Element Set_
-- Accès au serveur via URL (localhost ou en ligne)
+> Note: code written with the help of LLM [Mistral-7B-Instruct-v0.3](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3) using a personal prompt.
 
 ---
 
-## Fichiers du projet
+## Requirements
 
-| Fichier          | Description |
+- **PHP ≥ 7.2** (no special extensions required, the goal is to be as simple and dependency-free as possible for the host server)
+- HTTP Server (Apache, Nginx, or built-in using `php -S`)
+- CSV file structured according to the _Dublin Core Element Set_ format
+- Server access via URL (localhost or online)
+
+---
+
+## Project Files
+
+| File             | Description |
 |------------------|-------------|
-| `oai-pmh.php`    | Point d’entrée principal du serveur OAI-PMH |
-| `utils.php`      | Fonctions PHP auxiliaires pour charger et accéder aux données |
-| `data.csv`       | Base de données CSV avec les enregistrements Dublin Core |
-| `index.html`     | Interface de test OAI-PMH (facultative) |
+| `oai-pmh.php`    | Main entry point for the OAI-PMH server |
+| `utils.php`      | Auxiliary PHP functions to load and access data |
+| `data.csv`       | CSV database with Dublin Core records |
+| `index.html`     | OAI-PMH testing interface (optional) |
 
 ---
 
 ## Installation
 
-1. Clone ou copie les fichiers dans ton serveur web local :
+1. Clone or copy the files to your local web server:
 
    ```bash
    git clone https://example.com/oai-php.git
    cd oai-php/
    ```
 
-2. Lance un serveur local PHP (si besoin) :
+2. Start a local PHP server (if needed):
 
    ```bash
    php -S localhost:8000
    ```
 
-3. Accède à :
+3. Access:
 
    ```
    http://localhost:8000/oai-pmh.php?verb=Identify
@@ -49,9 +50,9 @@ Ce projet implémente un serveur OAI-PMH (_Open Archives Initiative Protocol for
 
 ---
 
-## Fonctionnement
+## How It Works
 
-Le script supporte les verbes suivants du protocole OAI-PMH :
+The script supports the following verbs from the OAI-PMH protocol:
 
 - `Identify`
 - `ListMetadataFormats`
@@ -60,82 +61,82 @@ Le script supporte les verbes suivants du protocole OAI-PMH :
 - `ListRecords`
 - `GetRecord`
 
-Le verbe est passé par URL via `?verb=...`.
+The verb is passed via URL using `?verb=...`.
 
 ---
 
-## Format du CSV attendu
+## Expected CSV Format
 
-Le fichier `data.csv` doit contenir une première ligne avec les champs suivants (en anglais, sans accents) :
+The `data.csv` file must contain a first line with the following fields (in English, no accents):
 
 ```
 set;identifier;title;creator;subject;description;publisher;date;type;format;language;coverage;rights;relation
 ```
 
-- set : est le marqueur pour le Set de l'OAI-PMH et est utilisé dans le verbe `ListSets`.
-- Les autres champs correspondent aux chamsp du _Dublin Core Element Set_.
+- set: this is the marker for the OAI-PMH Set and is used in the `ListSets` verb.
+- The other fields correspond to those in the _Dublin Core Element Set_.
 
 ---
 
-## Détail des fichiers et fonctions
+## File and Function Details
 
 ### `oai-pmh.php`
 
-Ce fichier reçoit les requêtes OAI-PMH et génère une réponse XML conforme au protocole.
+This file receives OAI-PMH requests and generates an XML response compliant with the protocol.
 
-#### Variables importantes :
+#### Important variables:
 
-- `$verb` — Verbe OAI demandé (`Identify`, `ListRecords`, etc.)
-- `$resumptionToken` — Index de pagination pour les listes
-- `$batchSize` — Nombre d’enregistrements par réponse (modifiable, ex. `10`)
+- `$verb` — Requested OAI verb (`Identify`, `ListRecords`, etc.)
+- `$resumptionToken` — Pagination index for listings
+- `$batchSize` — Number of records per response (modifiable, e.g. `10`)
 
-#### Logique principale :
+#### Main logic:
 
 ```php
 switch ($verb) {
   case 'Identify':
-    // Retourne les métadonnées du dépôt
+    // Returns repository metadata
   case 'ListIdentifiers':
-    // Liste uniquement les identifiants et datestamps
+    // Lists only identifiers and datestamps
   case 'ListSets':
-    // Liste uniquement les sets
+    // Lists only the sets
   case 'ListRecords':
-    // Retourne les enregistrements Dublin Core complets
+    // Returns full Dublin Core records
   case 'GetRecord':
-    // Retourne un enregistrement à partir de son identifiant
+    // Returns a single record by identifier
 }
 ```
 
-#### XML généré :
+#### Generated XML:
 
-- Conforme à OAI-PMH 2.0
-- Utilise le schéma Dublin Core (`oai_dc`)
+- Compliant with OAI-PMH 2.0
+- Uses the Dublin Core schema (`oai_dc`)
 
 ---
 
 ### `utils.php`
 
-Contient les fonctions de traitement du fichier CSV.
+Contains functions to process the CSV file.
 
 #### `load_records($filename = 'data.csv')`
 
-- Charge les enregistrements du fichier CSV
-- Nettoie les entêtes
-- Assure un identifiant et une date valide pour chaque ligne
+- Loads records from the CSV file
+- Cleans the headers
+- Ensures a valid identifier and date for each row
 
 #### `get_record_by_id($identifier, $records)`
 
-- Recherche un enregistrement dans le tableau par identifiant OAI
+- Searches a record in the array by OAI identifier
 
 #### `validate_date($date)`
 
-- Vérifie si une date est au format `YYYY`, `YYYY-MM`, ou `YYYY-MM-DD`
+- Checks if a date is in the format `YYYY`, `YYYY-MM`, or `YYYY-MM-DD`
 
 ---
 
-## Exemples d'URL de test
+## Test URL Examples
 
-| Verbe            | Exemple d’URL |
+| Verb             | Example URL |
 |------------------|-----------------------------|
 | Identify         | `?verb=Identify` |
 | ListIdentifiers  | `?verb=ListIdentifiers&metadataPrefix=oai_dc` |
@@ -146,34 +147,34 @@ Contient les fonctions de traitement du fichier CSV.
 
 ---
 
-## Notes et limitations
+## Notes and Limitations
 
-- Les données sont intégralement extraites depuis `data.csv`.
-- La pagination se fait via `resumptionToken`.
-- Le script n'implémente pas les fonctionalités de `deleted`, `from`, `until` de l'OAI dans la mesure où il doit rester très léger pour les utilisateurs non spécialiste de l'OAI. Pour celles et ceux qui souhaitent une intégration complète du protocole OAI-PMH, d'autres outils sont disponibles avec une gestion plus fine (Dataverse, Omeka Classic ou S, etc.).
-- Ce serveur ne convient pas pour des fichiers csv de taille importante, d'autres outils sont disponibles pour des très grand volume de données (Dataverse, etc.).
+- Data is entirely extracted from `data.csv`.
+- Pagination is done using `resumptionToken`.
+- The script does not implement `deleted`, `from`, or `until` functionalities of OAI, to keep it lightweight for users unfamiliar with OAI. Those seeking a full-featured OAI-PMH implementation should consider tools like Dataverse, Omeka Classic or Omeka S.
+- This server is not suited for large CSV files; other tools are better for handling large data volumes (e.g. Dataverse).
 
 ---
 
 ## FAQ
 
-**Q : Le script ne retourne qu’un seul enregistrement. Pourquoi ?**  
-A : Vérifiez que le paramètre `$batchSize` dans `oai-pmh.php` est bien défini à 10 (ou le nombre voulu).
+**Q: The script returns only one record. Why?**  
+A: Check that the `$batchSize` parameter in `oai-pmh.php` is set to 10 (or your desired number).
 
-**Q : Le XML est vide ou ne contient pas de données ?**  
-A : Assurez-vous que le fichier `data.csv` est encodé en UTF-8 sans BOM, avec `;` comme séparateur, et que les entêtes sont exacts.
+**Q: The XML is empty or contains no data?**  
+A: Ensure that the `data.csv` file is encoded in UTF-8 without BOM, uses `;` as separator, and that the headers are correct.
 
 ---
 
-## Licence et citation
+## License and Citation
 
-Ce projet est open-source, voir le fichier LICENSE pour plus d'information.
+This project is open-source; see the LICENSE file for more information.
 
-Citation : POUYLLAU, S. (CNRS) with Mistral 7b, _CSV2OAI : Serveur OAI-PMH pour fichier CSV_, juillet 2025.
+Citation: POUYLLAU, S. (CNRS) with Mistral 7b, _CSV2OAI: OAI-PMH Server for CSV Files_, July 2025.
 
 ---
 
 ## Contact
 
-Créé par Stéphane Pouyllau, ingénieur de recherche CNRS. 
-Date : juillet 2025.
+Created by Stéphane Pouyllau, CNRS Research Engineer.  
+Date: July 2025.
