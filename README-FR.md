@@ -4,7 +4,6 @@ Ce projet implémente un serveur OAI-PMH (_Open Archives Initiative Protocol for
 
 > Note : code écrit avec l'aide du LLM [Mistral-7B-Instruct-v0.3](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3) sur Prompt personnel.
 
-[TOC]
 
 ---
 

@@ -5,7 +5,6 @@ This project implements a simple OAI-PMH (_Open Archives Initiative Protocol for
 
 > Note: code written with the help of LLM [Mistral-7B-Instruct-v0.3](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3) using a personal prompt.
 
-[TOC]
 ---
 
 ## Requirements
