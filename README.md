@@ -70,7 +70,7 @@ The verb is passed via URL using `?verb=...`.
 The `data.csv` file must contain a first line with the following fields (in English, no accents):
 
 ```
-set;identifier;title;creator;subject;description;publisher;date;type;format;language;coverage;rights;relation
+set;identifier_oai;identifier;title;creator;subject;description;publisher;date;type;format;language;coverage;rights;relation
 ```
 
 - set: this is the marker for the OAI-PMH Set and is used in the `ListSets` verb.

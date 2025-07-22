@@ -69,7 +69,7 @@ Le verbe est passé par URL via `?verb=...`.
 Le fichier `data.csv` doit contenir une première ligne avec les champs suivants (en anglais, sans accents) :
 
 ```
-set;identifier;title;creator;subject;description;publisher;date;type;format;language;coverage;rights;relation
+set;identifier_oai;identifier;title;creator;subject;description;publisher;date;type;format;language;coverage;rights;relation
 ```
 
 - set : est le marqueur pour le Set de l'OAI-PMH et est utilisé dans le verbe `ListSets`.
