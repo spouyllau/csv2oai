@@ -5,6 +5,7 @@ This project implements a simple OAI-PMH (_Open Archives Initiative Protocol for
 
 > Note: code written with the help of LLM [Mistral-7B-Instruct-v0.3](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3) using a personal prompt.
 
+[TOC]
 ---
 
 ## Requirements
@@ -23,7 +24,7 @@ This project implements a simple OAI-PMH (_Open Archives Initiative Protocol for
 | `oai-pmh.php`    | Main entry point for the OAI-PMH server |
 | `utils.php`      | Auxiliary PHP functions to load and access data |
 | `data.csv`       | CSV database with Dublin Core records |
-| `index.html`     | OAI-PMH testing interface (optional) |
+| `index.html`     | OAI-PMH quering and testing interface (optional) |
 
 ---
 
@@ -153,6 +154,12 @@ Contains functions to process the CSV file.
 - Pagination is done using `resumptionToken`.
 - The script does not implement `deleted`, `from`, or `until` functionalities of OAI, to keep it lightweight for users unfamiliar with OAI. Those seeking a full-featured OAI-PMH implementation should consider tools like Dataverse, Omeka Classic or Omeka S.
 - This server is not suited for large CSV files; other tools are better for handling large data volumes (e.g. Dataverse).
+
+---
+
+## Demo
+
+A demo is avalaible on <a href="https://www.stephanepouyllau.org/oai-pmh/">https://www.stephanepouyllau.org/oai-pmh/</a>.
 
 ---
 

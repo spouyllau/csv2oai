@@ -4,6 +4,8 @@ Ce projet implémente un serveur OAI-PMH (_Open Archives Initiative Protocol for
 
 > Note : code écrit avec l'aide du LLM [Mistral-7B-Instruct-v0.3](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3) sur Prompt personnel.
 
+[TOC]
+
 ---
 
 ## Prérequis
@@ -152,6 +154,12 @@ Contient les fonctions de traitement du fichier CSV.
 - La pagination se fait via `resumptionToken`.
 - Le script n'implémente pas les fonctionalités de `deleted`, `from`, `until` de l'OAI dans la mesure où il doit rester très léger pour les utilisateurs non spécialiste de l'OAI. Pour celles et ceux qui souhaitent une intégration complète du protocole OAI-PMH, d'autres outils sont disponibles avec une gestion plus fine (Dataverse, Omeka Classic ou S, etc.).
 - Ce serveur ne convient pas pour des fichiers csv de taille importante, d'autres outils sont disponibles pour des très grand volume de données (Dataverse, etc.).
+
+---
+
+## Demo
+
+Un serveur de démonstration est maintenu sur <a href="https://www.stephanepouyllau.org/oai-pmh/">https://www.stephanepouyllau.org/oai-pmh/</a>.
 
 ---
 
