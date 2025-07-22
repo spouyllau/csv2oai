@@ -16,7 +16,7 @@
 </head>
 <body>
   <h1>OAI-PMH Server for CSV file “PHP Version”</h1>
-  <p>Query interface for different verbs from OAI-PMH Server. the data.csv file push data to the OAI verb feed.</p>
+  <p>Query interface for different verbs from OAI-PMH Server. the <a href="data.csv">data.csv</a> file push data to the OAI verb feed.</p>
   <form id="oaiForm">
     <label>Verb :
       <select name="verb" id="verb">
@@ -32,6 +32,7 @@
     <label>metadataPrefix : <input type="text" name="metadataPrefix" value="oai_dc"></label><br>
     <label>resumptionToken (10 by default, see $batchSize) : <input type="text" name="resumptionToken" placeholder="0"></label><br>
     <button type="submit">Submit</button>
+    <button type="reset">Reset</button>
   </form>
 
   <textarea id="output" readonly></textarea>
