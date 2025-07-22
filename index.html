@@ -2,22 +2,23 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Serveur OAI-PMH pour fichier CSV</title>
+  <title>OAI-PMH Server for CSV file</title>
   <meta name="robots" content="index,follow" />
-  <meta name="description" content="Cette page permet de tester le serveur OAI-PMH pour fichier CSV" />
+  <meta name="description" content="Query interface for different verbs from OAI-PMH Server." />
   <style>
-    body { font-family: sans-serif; padding: 2em; }
-    p {font-family: sans-serif; font-size: 0.8em;}
-    input, select { padding: 0.4em; margin: 0.5em 0; width: 100%; max-width: 500px; }
-    button { padding: 0.6em 1em; }
-    textarea { width: 100%; height: 300px; margin-top: 1em; }
+    body { background-color:rgb(232, 232, 232); font-family: 'Times New Roman', Times, serif;}
+    h1 { font-size: 2em;}
+    p { font-size: 1em;}
+    input, select { padding: 0.4em; margin: 0.7em 0; width: 100%; max-width: 500px; }
+    button { padding: 0.4em 1em; }
+    textarea { width: 100%; height: 300px; margin-top: 1em; font-family: 'Courier New', Courier, monospace; font-size: 0.9em;"}
   </style>
 </head>
 <body>
-  <h1>Serveur OAI-PMH pour fichier CSV</h1>
-  <p>Interface de requêtes des différents verbes de l'entrepôt OAI-PMH. Dans ce serveur de démo, le fichier <a href="https://github.com/spouyllau/csv2oai/blob/main/data.csv" target="_blank">data.csv</a> est utilisé.</p>
+  <h1>OAI-PMH Server for CSV file “PHP Version“</h1>
+  <p>Query interface for different verbs from OAI-PMH Server. the data.csv file push data to the OAI verb feed.</p>
   <form id="oaiForm">
-    <label>Verbe :
+    <label>Verb :
       <select name="verb" id="verb">
         <option value="Identify">Identify</option>
         <option value="ListMetadataFormats">ListMetadataFormats</option>
@@ -29,8 +30,8 @@
     </label><br>
     <label>Identifier : <input type="text" name="identifier" placeholder="oai:example.org:1"></label><br>
     <label>metadataPrefix : <input type="text" name="metadataPrefix" value="oai_dc"></label><br>
-    <label>resumptionToken (à 10 entrées par défaut : voir le paramètre $batchSize) : <input type="text" name="resumptionToken" placeholder="0"></label><br>
-    <button type="submit">Envoyer</button>
+    <label>resumptionToken (10 by default, see $batchSize) : <input type="text" name="resumptionToken" placeholder="0"></label><br>
+    <button type="submit">Submit</button>
   </form>
 
   <textarea id="output" readonly></textarea>
@@ -51,6 +52,6 @@
       document.getElementById('output').value = text;
     });
   </script>
-  <p>POUYLLAU, S. (CNRS) with Mistral 7b, <a href="https://github.com/spouyllau/csv2oai" target="_blank">CSV2OAI : Serveur OAI-PMH pour fichier CSV</a>, juillet 2025.</p>
+  <p>POUYLLAU, S. (CNRS) with Mistral 7b, <a href="https://github.com/spouyllau/csv2oai" target="_blank">CSV2OAI : Serveur OAI-PMH pour fichier CSV</a>, July 2025.</p>
 </body>
 </html>
