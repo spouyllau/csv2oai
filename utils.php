@@ -11,9 +11,10 @@ function load_records($filename = 'data.csv') {
     $headers = fgetcsv($handle, 0, ';');
     while (($row = fgetcsv($handle, 0, ';')) !== false) {
         $record = array_combine($headers, $row);
-        if (!isset($record['identifier']) || empty($record['identifier'])) {
-            static $id = 0;
-            $record['identifier'] = 'oai:example:' . (++$id);
+        if (!isset($record['identifier_oai']) || empty($record['identifier_oai'])) {
+            //static $id = 0;
+            //$record['identifier_oai'] = 'oai:exemple:' . (++$id);
+            $record['identifier_oai'] = $record['identifier_oai'];
         }
         if (!isset($record['date']) || empty($record['date'])) {
             $record['date'] = date('Y-m-d');
@@ -30,7 +31,7 @@ function load_records($filename = 'data.csv') {
 
 function get_record_by_id($identifier, $records) {
     foreach ($records as $record) {
-        if ($record['identifier'] === $identifier) return $record;
+        if ($record['identifier_oai'] === $identifier) return $record;
     }
     return null;
 }

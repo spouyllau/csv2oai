@@ -19,7 +19,7 @@ $baseURL = get_base_url();
 function format_record($record) {
     $xml = "<record>\n";
     $xml .= "  <header>\n";
-    $xml .= "    <identifier>" . htmlspecialchars($record['identifier']) . "</identifier>\n";
+    $xml .= "    <identifier>" . htmlspecialchars($record['identifier_oai']) . "</identifier>\n";
     $xml .= "    <datestamp>" . htmlspecialchars($record['date']) . "</datestamp>\n";
     if (!empty($record['set'])) {
         $xml .= "    <setSpec>" . htmlspecialchars($record['set']) . "</setSpec>\n";
@@ -32,7 +32,7 @@ function format_record($record) {
              xsi:schemaLocation=\"http://www.openarchives.org/OAI/2.0/oai_dc/ 
              http://www.openarchives.org/OAI/2.0/oai_dc.xsd\">\n";
     foreach ($record as $key => $value) {
-        if (in_array($key, ['title','creator','subject','description','publisher','date','type','format','language','coverage','rights']) && !empty($value)) {
+        if (in_array($key, ['identifier','title','creator','subject','description','publisher','date','type','format','language','coverage','rights']) && !empty($value)) {
             $xml .= "      <dc:$key>" . htmlspecialchars($value) . "</dc:$key>\n";
         }
     }
@@ -44,7 +44,7 @@ function format_record($record) {
 
 function format_header($record) {
     $xml = "<header>\n";
-    $xml .= "  <identifier>" . htmlspecialchars($record['identifier']) . "</identifier>\n";
+    $xml .= "  <identifier>" . htmlspecialchars($record['identifier_oai']) . "</identifier>\n";
     $xml .= "  <datestamp>" . htmlspecialchars($record['date']) . "</datestamp>\n";
     if (!empty($record['set'])) {
         $xml .= "  <setSpec>" . htmlspecialchars($record['set']) . "</setSpec>\n";
@@ -68,8 +68,11 @@ function list_sets($sets) {
 $date = gmdate('Y-m-d\TH:i:s\Z');
 echo "<OAI-PMH xmlns=\"http://www.openarchives.org/OAI/2.0/\">\n";
 echo "  <responseDate>$date</responseDate>\n";
-echo "  <request verb=\"$verb\">$baseURL</request>\n";
-
+if ($verb == 'Identify' || $verb == 'ListSets')
+    echo "  <request verb=\"$verb\">$baseURL</request>\n";
+else {
+    echo "  <request verb=\"$verb\" metadataPrefix=\"oai_dc\">$baseURL</request>\n";
+}
 switch ($verb) {
     case 'Identify':
         echo "  <Identify>\n";
@@ -77,7 +80,7 @@ switch ($verb) {
         echo "    <baseURL>$baseURL</baseURL>\n";
         echo "    <protocolVersion>2.0</protocolVersion>\n";
         echo "    <adminEmail>admin@example.org</adminEmail>\n";
-        echo "    <earliestDatestamp>2000-01-01</earliestDatestamp>\n";
+        echo "    <earliestDatestamp>1800-01-01</earliestDatestamp>\n";
         echo "    <deletedRecord>no</deletedRecord>\n";
         echo "    <granularity>YYYY-MM-DD</granularity>\n";
         echo "  </Identify>\n";
