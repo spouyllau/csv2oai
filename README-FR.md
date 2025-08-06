@@ -1,9 +1,8 @@
 # CSV2OAI : Serveur OAI-PMH pour fichier CSV
 
-Ce projet implémente un serveur OAI-PMH (_Open Archives Initiative Protocol for Metadata Harvesting_) simple, en **PHP**, dont les données proviennent d’un fichier **CSV** contenant des métadonnées au format _Dublin Core Element Set_.
+Ce projet implémente un serveur OAI-PMH simple, en **PHP**, dont les données proviennent d’un fichier **CSV** contenant des métadonnées au format _Dublin Core Element Set_. OAI-PMH est un protocole pour l'échange de metadonnées et de données depuis 1999 : voir [Open Archives Initiative Protocol for Metadata Harvesting](https://www.openarchives.org/pmh/).
 
-> Note : code écrit avec l'aide du LLM [Mistral-7B-Instruct-v0.3](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3) sur Prompt personnel.
-
+> Note : code écrit avec l'aide du LLM [Mistral-7B-Instruct-v0.3](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3) sur Prompt personnel en méthode _vibe coding_.
 
 ---
 
