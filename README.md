@@ -5,6 +5,8 @@ This project implements a simple OAI-PMH server in **PHP**, where the data comes
 
 > Note: code written with the help of LLM [Mistral-7B-Instruct-v0.3](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3) using a personal prompt in _vibe coding_ method.
 
+Also available in [Perl](https://github.com/spouyllau/csv2oai-the-definitive-Perl-version).
+
 ---
 
 ## Requirements

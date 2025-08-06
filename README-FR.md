@@ -4,6 +4,8 @@ Ce projet implémente un serveur OAI-PMH simple, en **PHP**, dont les données p
 
 > Note : code écrit avec l'aide du LLM [Mistral-7B-Instruct-v0.3](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3) sur Prompt personnel en méthode _vibe coding_.
 
+Aussi disponible en [Perl](https://github.com/spouyllau/csv2oai-the-definitive-Perl-version).
+
 ---
 
 ## Prérequis
