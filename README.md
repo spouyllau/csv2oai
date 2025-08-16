@@ -38,7 +38,7 @@ Also available in [Perl](https://github.com/spouyllau/csv2oai-the-definitive-Per
    cd oai-php/
    ```
 
-2. Start a local PHP server (if needed):
+2. Start a local PHP server (if needed, not for online):
 
    ```bash
    php -S localhost:8000
